@@ -16,6 +16,7 @@ import licenseRoutes from "./global/license"
 import migrationRoutes from "./system/migrations"
 import accountRoutes from "./system/accounts"
 import restoreRoutes from "./system/restore"
+import scimRoutes from "./global/scim"
 
 let userGroupRoutes = api.groups
 export const routes: Router[] = [
@@ -36,4 +37,5 @@ export const routes: Router[] = [
   accountRoutes,
   restoreRoutes,
   eventRoutes,
+  scimRoutes,
 ]
