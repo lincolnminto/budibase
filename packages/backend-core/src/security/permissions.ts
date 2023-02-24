@@ -22,6 +22,7 @@ export enum PermissionType {
   BUILDER = "builder",
   VIEW = "view",
   QUERY = "query",
+  GLOBAL = "global",
 }
 
 class Permission {

@@ -3,6 +3,7 @@ import queryEndpoints from "./queries"
 import tableEndpoints from "./tables"
 import rowEndpoints from "./rows"
 import userEndpoints from "./users"
+import scimEndpoints from "./scim"
 import authorized from "../../../middleware/authorized"
 import publicApi from "../../../middleware/publicApi"
 import { paramResource, paramSubResource } from "../../../middleware/resourceId"
@@ -94,27 +95,33 @@ function addToRouter(endpoints: any) {
 function applyRoutes(
   endpoints: any,
   permType: string,
-  resource: string,
+  resource?: string,
   subResource?: string
 ) {
-  const paramMiddleware = subResource
-    ? paramSubResource(resource, subResource)
-    : paramResource(resource)
   const publicApiMiddleware = publicApi({
     requiresAppId:
-      permType !== PermissionType.APP && permType !== PermissionType.USER,
+      permType !== PermissionType.APP &&
+      permType !== PermissionType.USER &&
+      permType !== PermissionType.GLOBAL,
   })
   addMiddleware(endpoints.read, publicApiMiddleware)
   addMiddleware(endpoints.write, publicApiMiddleware)
-  // add the parameter capture middleware
-  addMiddleware(endpoints.read, paramMiddleware)
-  addMiddleware(endpoints.write, paramMiddleware)
+  if (resource) {
+    const paramMiddleware = subResource
+      ? paramSubResource(resource, subResource)
+      : paramResource(resource)
+    // add the parameter capture middleware
+    addMiddleware(endpoints.read, paramMiddleware)
+    addMiddleware(endpoints.write, paramMiddleware)
+  }
   // add the authorization middleware, using the correct perm type
   addMiddleware(endpoints.read, authorized(permType, PermissionLevel.READ))
   addMiddleware(endpoints.write, authorized(permType, PermissionLevel.WRITE))
-  // add the output mapper middleware
-  addMiddleware(endpoints.read, mapperMiddleware, { output: true })
-  addMiddleware(endpoints.write, mapperMiddleware, { output: true })
+  if (resource) {
+    // add the output mapper middleware
+    addMiddleware(endpoints.read, mapperMiddleware, { output: true })
+    addMiddleware(endpoints.write, mapperMiddleware, { output: true })
+  }
   addToRouter(endpoints.read)
   addToRouter(endpoints.write)
 }
@@ -123,6 +130,9 @@ applyRoutes(appEndpoints, PermissionType.APP, "appId")
 applyRoutes(tableEndpoints, PermissionType.TABLE, "tableId")
 applyRoutes(userEndpoints, PermissionType.USER, "userId")
 applyRoutes(queryEndpoints, PermissionType.QUERY, "queryId")
+
+applyRoutes(scimEndpoints, PermissionType.GLOBAL)
+
 // needs to be applied last for routing purposes, don't override other endpoints
 applyRoutes(rowEndpoints, PermissionType.TABLE, "tableId", "rowId")
 
