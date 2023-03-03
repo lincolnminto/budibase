@@ -1,6 +1,7 @@
 {
   "version": "2.3.18-alpha.27",
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "packages": [
     "packages/*"
   ],

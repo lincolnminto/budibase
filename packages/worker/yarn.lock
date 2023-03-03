@@ -592,6 +592,18 @@
     lodash "^4.17.20"
     vm2 "^3.9.4"
 
+"@budibase/string-templates@2.3.18-alpha.27":
+  version "2.3.18-alpha.27"
+  resolved "https://registry.yarnpkg.com/@budibase/string-templates/-/string-templates-2.3.18-alpha.27.tgz#1ede9ef3ee3326bd7eabdaec060cc407c9918bd8"
+  integrity sha512-Zt0gjOv49u7Mq++N3tHZahUBMqhBQMY0bT0uXAirWvhkQXqyX2VNOQbRmnBJhSE9/2INj8kZ2W6kCrXa16kdFg==
+  dependencies:
+    "@budibase/handlebars-helpers" "^0.11.8"
+    dayjs "^1.10.4"
+    handlebars "^4.7.6"
+    handlebars-utils "^1.0.6"
+    lodash "^4.17.20"
+    vm2 "^3.9.4"
+
 "@budibase/types@2.3.18-alpha.27":
   version "2.3.18-alpha.27"
   resolved "https://registry.yarnpkg.com/@budibase/types/-/types-2.3.18-alpha.27.tgz#5cac032bb07727a3f8a5f88482769a38f849bd64"
