@@ -359,14 +359,15 @@ class GoogleSheetsIntegration implements DatasourcePlus {
       await this.connect()
       const sheet = this.client.sheetsByTitle[query.sheet]
       const rows = await sheet.getRows()
-      const filtered = dataFilters.runLuceneQuery(rows, query.filters)
       const headerValues = sheet.headerValues
       let response = []
-      for (let row of filtered) {
+      for (let row of rows) {
         response.push(
           this.buildRowObject(headerValues, row._rawData, row._rowNumber)
         )
       }
+
+      response = dataFilters.runLuceneQuery(response, query.filters)
 
       if (query.sort) {
         if (Object.keys(query.sort).length !== 1) {

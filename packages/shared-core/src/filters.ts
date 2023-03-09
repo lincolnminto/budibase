@@ -343,7 +343,7 @@ export const runLuceneQuery = (docs: any[], query?: Query) => {
   const equalMatch = match(
     "equal",
     (docValue: any, testValue: string | null) => {
-      return testValue != null && testValue !== "" && docValue !== testValue
+      return testValue != null && testValue !== "" && docValue != testValue
     }
   )
 
@@ -351,7 +351,7 @@ export const runLuceneQuery = (docs: any[], query?: Query) => {
   const notEqualMatch = match(
     "notEqual",
     (docValue: any, testValue: string | null) => {
-      return testValue != null && testValue !== "" && docValue === testValue
+      return testValue != null && testValue !== "" && docValue == testValue
     }
   )
 
